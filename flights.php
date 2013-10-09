@@ -3,7 +3,7 @@
  * Get speaker flight live status
  */
 
-date_default_timezone_set('Europe/London');
+date_default_timezone_set('Europe/London'); // should be set in php.ini
 $day = strtolower(date('l'));
 
 $html = '<hr /><div> 
@@ -29,7 +29,9 @@ $json = file_get_contents($json_url);
 $obj = json_decode($json);
 $flights = $obj->flights;
 
-
+/*
+ *  This data should be arrays within arrays or an array with bands -> properties
+ */
 $thursday = array(
 	'EZY1832' 	=> 'Sigur Ros',
 	'KL1093'	=> 'New Order'
@@ -60,6 +62,8 @@ $monday = array(
 	'DL065' => 'Example'
 );
 
+
+// can be a secruity issue. 
 $dayArray = $$day;
 
 ?>
@@ -69,8 +73,9 @@ $dayArray = $$day;
 	<body>
 		<?php
 			echo '<h1>'.ucwords($day).'</h1>';
-
+			
 			foreach ($flights as $flight){
+				// Should htmlspecialchar escape all the flight properties. Using a templating engine ( eg twig) would auto escape this. 
 				if (array_key_exists($flight->flightNumber, $dayArray) && is_int(strpos(strtolower($flight->schdDate), $day))){
 					printf(
 						$html,
