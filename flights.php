@@ -18,9 +18,10 @@ $html = '<hr /><div>
 
 $arrivals_url = 'http://www.manchesterairport.co.uk/flightinformation/arrivals.json';
 $departure_url = 'http://www.manchesterairport.co.uk/flightinformation/departures.json';
+$interestedFlights_url = 'interestedFlights.php';
 
 $json_url = $arrivals_url;
-//if(strpos($day, 's') == 0){
+
 if('sunday' == $day || 'monday' == $day){
 	$json_url = $departure_url;
 }
@@ -29,42 +30,9 @@ $json = file_get_contents($json_url);
 $obj = json_decode($json);
 $flights = $obj->flights;
 
-/*
- *  This data should be arrays within arrays or an array with bands -> properties
- */
-$thursday = array(
-	'EZY1832' 	=> 'Sigur Ros',
-	'KL1093'	=> 'New Order'
-);
+$interestedFLights = file_get_contents($interestedFLights_url);
 
-$friday = array(
-	'SN2173' => 'Rage Against the Machine',
-	'EZY1832' => 'Regurgitator',
-	'KL1081' => 'Norah Jones',
-	'DL064' => 'Third Eye Blind',
-	'EZY1898' => 'VV Brown',
-	'KL1083' => 'OK Go',
-	'AF2198' => 'Jack Johnson'
-);
-
-$sunday = array(
-	'KL1074' => 'Tool',
-	'KL1088' => 'Hugh Laurie',
-	'SN2178' => 'Michael Buble',
-	'BE7217' => 'RHCP',
-	'KL1094' => 'Jason Mraz',
-	'EZY1835' => 'Bob Dylan',
-	'AF1169' => 'Bruno Mars'
-);
-
-$monday = array(
-	'SN2174' => 'Emeli Sande',
-	'DL065' => 'Example'
-);
-
-
-// can be a secruity issue. 
-$dayArray = $$day;
+$dayArray = $interestedFLights[$day];
 
 ?>
 <html>
